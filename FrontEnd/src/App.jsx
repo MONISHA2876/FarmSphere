@@ -1,5 +1,11 @@
+import FarmerFrontend from "./pages/FarmerFrontend";
+
 function App() {
-  return <></>;
+  return (
+    <>
+      <FarmerFrontend />
+    </>
+  );
 }
 
 export default App;
