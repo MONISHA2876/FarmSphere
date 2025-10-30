@@ -9,6 +9,7 @@ export default {
           main: "#2E6049", // rich botanical green
           light: "#A7D7A9", // soft mint green
           lighter: "#D4EED1", // pale leaf tint
+          saffron: "#FF9933", // new color
         },
         btn: {
           main: "#3B7A57", // fern green
