@@ -336,20 +336,6 @@ const AgriDashboard = () => {
           ))}
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes float {
-          0% {
-            transform: translateY(0) rotate(0deg);
-          }
-          50% {
-            transform: translateY(-20px) rotate(180deg);
-          }
-          100% {
-            transform: translateY(0) rotate(360deg);
-          }
-        }
-      `}</style>
     </div>
   );
 };
