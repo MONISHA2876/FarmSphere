@@ -225,17 +225,10 @@ export default function PlantDiseaseDetection() {
     try {
       const image = await loadImageBase64(selectedImage);
 
-      const response = await axios({
-        method: "POST",
-        url: "https://serverless.roboflow.com/plant-disease-detection-v2-2nclk/1",
-        params: {
-          api_key: "DF7jBQgwcdqHe6AzQSMi",
-        },
-        data: image,
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/detect",
+        { image }
+      );
 
       setDetectionResult(response.data);
     } catch (error) {

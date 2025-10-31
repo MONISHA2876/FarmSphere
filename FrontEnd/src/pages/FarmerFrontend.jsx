@@ -10,11 +10,13 @@ export default function FarmerFrontend() {
   return (
     <div>
       <Header />
-      <AgriDashboard />
-      <StorageForm />
-      <PlantDiseaseDetection />
-      <WeatherForecast />
-      <MarketPrediction />
+      <div className="pt-24 md:pt-28">
+        <AgriDashboard />
+        <StorageForm />
+        <PlantDiseaseDetection />
+        <WeatherForecast />
+        <MarketPrediction />
+      </div>
     </div>
   );
 }

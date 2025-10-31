@@ -71,7 +71,7 @@ export default function Header() {
               <Link
                 key={item.name}
                 to={item.path}
-                className="relative px-4 py-2 text-sm font-medium transition-colors duration-300 hover:text-primary-lighter group"
+                className="relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 hover:text-primary-lighter hover:bg-primary-light/20 hover:shadow-sm group"
                 onMouseEnter={() => setActiveItem(item.name)}
                 onMouseLeave={() => setActiveItem(null)}
               >
