@@ -1,216 +1,166 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Leaf } from "lucide-react";
 
-function Header() {
+const menuItems = [
+  { name: "Home", path: "/" },
+  { name: "Disease Detector", path: "/disease-detector" },
+  { name: "Soil Analyzer", path: "/soil-analyzer" },
+  { name: "Price Predictor", path: "/price-predictor" },
+  { name: "Weather Forecast", path: "/weather-forecast" },
+  { name: "Storage Management", path: "/storage-management" },
+  { name: "MarketPlace", path: "/marketplace" },
+];
+
+export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(null);
   const [scrolled, setScrolled] = useState(false);
-
-  const colors = {
-    primary: {
-      dark: "#0f2b22", // darker deep forest green (darkened)
-      main: "#1f4d3d", // darker forest green (darkened)
-      light: "#40916C", // Sage green
-      lighter: "#52B788", // Mint green
-      lightest: "#74C69D", // Light mint
-      bg: "#081C15", // Dark background
-    },
-    button: {
-      main: "#40916C", // Match with primary.light
-      hover: "#52B788", // Match with primary.lighter
-      focus: "#74C69D", // Match with primary.lightest
-    },
-    white: "#FFFFFF",
-  };
-
-  const menuItems = [
-    { name: "Home", path: "/" },
-    { name: "Disease Detector", path: "/" },
-    { name: "Soil Analyzer", path: "/" },
-    { name: "Price Predictor", path: "/" },
-    { name: "Weather Forecast", path: "/" },
-    { name: "Storage Management", path: "/" },
-    { name: "MarketPlace", path: "/" },
-  ];
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setScrolled(window.scrollY > 50);
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
 
   return (
     <header
-      className={`w-full z-50 transition-all duration-500 ${
+      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
         scrolled
-          ? `bg-[${colors.primary.dark}] shadow-lg py-2 backdrop-blur-md`
-          : `bg-[${colors.primary.main}] py-4 backdrop-blur-sm`
-      } text-[${colors.white}] px-6 md:px-16`}
+          ? "bg-header-scrolled/95 backdrop-blur-md shadow-lg py-3"
+          : "bg-header-bg/80 backdrop-blur-sm py-5"
+      } text-primary-foreground`}
     >
-      <div className="flex items-center justify-between max-w-7xl mx-auto md:justify-start">
-        <div className="text-2xl font-bold relative overflow-hidden group md:mr-12">
-          <div className="flex items-center">
-            <span
-              className={`text-[${colors.primary.light}] mr-2 transform transition-transform duration-300 ease-out group-hover:rotate-12 group-hover:scale-125 motion-safe:will-change-transform`}
-            >
-              🌿
-            </span>
-            <span className="inline-block relative">
-              <span className="inline-block transition-transform duration-500 ease-out group-hover:translate-y-full group-hover:opacity-0">
-                Farm
+      <div className="container mx-auto px-6 lg:px-8">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <Link to="/" className="relative group flex items-center space-x-2">
+            <div className="relative">
+              <Leaf className="w-8 h-8 text-primary-lighter transition-all duration-500 group-hover:rotate-12 group-hover:scale-125" />
+              <div className="absolute inset-0 blur-lg bg-primary-lighter/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            </div>
+
+            <div className="text-2xl font-bold relative overflow-hidden">
+              <span className="inline-block relative">
+                <span className="inline-block transition-all duration-500 group-hover:translate-y-full group-hover:opacity-0">
+                  Farm
+                </span>
+                <span className="absolute left-0 top-0 text-primary-lighter transition-all duration-500 -translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100">
+                  Farm
+                </span>
               </span>
-              <span
-                className={`inline-block transition-colors duration-400 group-hover:text-[${colors.primary.light}]`}
-              >
+              <span className="inline-block transition-colors duration-400 group-hover:text-primary-lighter">
                 Sphere
               </span>
-              <span
-                className={`absolute left-0 top-0 text-[${colors.primary.light}] transition-transform duration-500 transform translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100`}
-                style={{ willChange: "transform, opacity" }}
-              >
-                Eco
-              </span>
-            </span>
-          </div>
-          <span
-            className={`absolute -bottom-1 left-0 w-0 h-1 bg-[${colors.primary.light}] transition-all duration-500 ease-in-out group-hover:w-full rounded-full origin-left transform-gpu`}
-          ></span>
-        </div>
+            </div>
 
-        <button
-          className={`md:hidden focus:outline-none p-2 rounded-full bg-[${colors.primary.bg}] bg-opacity-30 hover:bg-opacity-70 transition-all duration-300 hover:scale-110`}
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-        >
-          <div className="w-6 h-6 relative flex justify-center items-center">
-            <span
-              className={`absolute h-0.5 w-5 bg-white transform transition-all duration-300 ease-in-out ${
-                menuOpen ? "rotate-45" : "-translate-y-1.5"
-              }`}
-            ></span>
-            <span
-              className={`absolute h-0.5 w-5 bg-white transform transition-all duration-300 ease-in-out ${
-                menuOpen ? "opacity-0" : "opacity-100"
-              }`}
-            ></span>
-            <span
-              className={`absolute h-0.5 w-5 bg-white transform transition-all duration-300 ease-in-out ${
-                menuOpen ? "-rotate-45" : "translate-y-1.5"
-              }`}
-            ></span>
-          </div>
-        </button>
+            <span className="absolute -bottom-1 left-0 w-0 h-1 bg-primary-lighter transition-all duration-500 group-hover:w-full rounded-full" />
+          </Link>
 
-        <nav className="hidden md:flex md:justify-between md:grow">
-          <ul className="flex items-center space-x-8">
-            {menuItems.map((item, index) => (
-              <li
-                key={index}
-                className="relative transition-transform duration-200 hover:-translate-y-0.5"
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center space-x-1">
+            {menuItems.map((item) => (
+              <Link
+                key={item.name}
+                to={item.path}
+                className="relative px-4 py-2 text-sm font-medium transition-colors duration-300 hover:text-primary-lighter group"
                 onMouseEnter={() => setActiveItem(item.name)}
                 onMouseLeave={() => setActiveItem(null)}
               >
-                <a
-                  href={item.path}
-                  className={`text-[${colors.white}] no-underline text-sm py-2 block hover:text-[${colors.primary.lighter}] transition-all duration-300`}
+                <span
+                  className={`transition-all duration-300 ${
+                    activeItem === item.name ? "scale-110" : ""
+                  }`}
                 >
-                  <span
-                    className={`transition-all duration-300 ${
-                      activeItem === item.name
-                        ? `transform scale-110 text-[${colors.primary.lighter}] font-medium`
-                        : ""
-                    }`}
-                  >
-                    {item.name}
-                  </span>
-                  <span
-                    className={`absolute -bottom-1 left-0 h-0.5 bg-[${
-                      colors.primary.light
-                    }] transition-all duration-300 ${
-                      activeItem === item.name ? "w-full" : "w-0"
-                    }`}
-                  ></span>
-                </a>
-              </li>
+                  {item.name}
+                </span>
+                <span
+                  className={`absolute bottom-0 left-0 h-0.5 bg-primary-lighter transition-all duration-300 ${
+                    activeItem === item.name || location.pathname === item.path
+                      ? "w-full"
+                      : "w-0"
+                  }`}
+                />
+              </Link>
             ))}
-          </ul>
+          </nav>
 
-          <div className="flex items-center">
-            <Link to="/RegisterPage">
-              <button
-                className={`bg-[${colors.button.main}] hover:bg-[${colors.button.hover}] px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[${colors.button.focus}]`}
-              >
+          {/* Desktop Login Button */}
+          <div className="hidden lg:block">
+            <Link to="/register">
+              <button className="bg-button-primary hover:bg-button-hover text-primary-foreground rounded-full px-6 py-2 font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary-lighter/20">
                 Login
               </button>
             </Link>
           </div>
-        </nav>
-      </div>
 
-      <div
-        className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out ${
-          menuOpen ? "max-h-screen opacity-100 pt-6" : "max-h-0 opacity-0"
-        }`}
-      >
-        <ul className="flex flex-col">
-          {menuItems.map((item, index) => (
-            <li
-              key={index}
-              className={`transform transition-all duration-300 hover:bg-[${
-                colors.primary.bg
-              }] hover:bg-opacity-30 rounded-lg px-4 ${
-                menuOpen
-                  ? `opacity-100 translate-x-0`
-                  : "opacity-0 -translate-x-8"
-              }`}
-              style={{ transitionDelay: menuOpen ? `${index * 50}ms` : "0ms" }}
-            >
-              <a
-                href={item.path}
-                className={`py-3 text-[${colors.white}] no-underline text-sm hover:text-[${colors.primary.lighter}] transition-all duration-300 flex items-center`}
+          {/* Mobile Menu Button */}
+          <button
+            className="lg:hidden p-2 rounded-lg hover:bg-primary-light/20 transition-all duration-300"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+          >
+            <div className="w-6 h-6 relative flex justify-center items-center">
+              <span
+                className={`absolute h-0.5 w-6 bg-primary-foreground transition-all duration-300 ${
+                  menuOpen ? "rotate-45" : "-translate-y-2"
+                }`}
+              />
+              <span
+                className={`absolute h-0.5 w-6 bg-primary-foreground transition-all duration-300 ${
+                  menuOpen ? "opacity-0" : "opacity-100"
+                }`}
+              />
+              <span
+                className={`absolute h-0.5 w-6 bg-primary-foreground transition-all duration-300 ${
+                  menuOpen ? "-rotate-45" : "translate-y-2"
+                }`}
+              />
+            </div>
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        <div
+          className={`lg:hidden overflow-hidden transition-all duration-500 ${
+            menuOpen ? "max-h-[600px] opacity-100 mt-6" : "max-h-0 opacity-0"
+          }`}
+        >
+          <nav className="flex flex-col space-y-2">
+            {menuItems.map((item, index) => (
+              <Link
+                key={item.name}
+                to={item.path}
+                className={`px-4 py-3 rounded-lg text-sm font-medium hover:bg-primary-light/20 transition-all duration-300 transform ${
+                  menuOpen
+                    ? "translate-x-0 opacity-100"
+                    : "-translate-x-8 opacity-0"
+                }`}
+                style={{
+                  transitionDelay: menuOpen ? `${index * 50}ms` : "0ms",
+                }}
               >
-                <span>{item.name}</span>
-                <span className="ml-auto transform transition-all duration-300 opacity-0 hover:opacity-100">
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </span>
-              </a>
-            </li>
-          ))}
-          <li className="mt-4 px-4 pb-4">
-            <Link to="/RegisterPage" className="block w-full">
-              <button
-                className={`w-full bg-[${colors.button.main}] hover:bg-[${colors.button.hover}] py-3 rounded-lg text-sm font-medium transition-all duration-300 hover:shadow-lg transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[${colors.button.focus}]`}
-              >
-                Login
-              </button>
-            </Link>
-          </li>
-        </ul>
+                {item.name}
+              </Link>
+            ))}
+            <div className="pt-4">
+              <Link to="/register" className="block">
+                <div className="w-full bg-button-primary hover:bg-button-hover text-white rounded-lg py-3 px-4 font-medium transition-all duration-300 hover:shadow-lg text-center cursor-pointer">
+                  Login
+                </div>
+              </Link>
+            </div>
+          </nav>
+        </div>
       </div>
     </header>
   );
 }
-
-export default Header;
