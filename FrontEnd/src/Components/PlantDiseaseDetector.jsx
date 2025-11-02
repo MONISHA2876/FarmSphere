@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {Element} from "react-scroll";
 
 export default function PlantDiseaseDetection() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -242,6 +243,8 @@ export default function PlantDiseaseDetection() {
 
   return (
     <div className="w-full min-h-screen bg-smart-green p-6 overflow-hidden">
+      {/* <Element name="plant-disease-detector" /> */}
+
       <div className="fixed inset-0 z-0 opacity-10">
         {[...Array(20)].map((_, i) => (
           <div
