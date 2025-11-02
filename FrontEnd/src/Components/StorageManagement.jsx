@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { registerStorage, updateAvailability, getFarmerSlots } from "./web3";
+import { registerStorage, updateAvailability, getFarmerSlots } from "./ethers";
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
 import { ethers } from "ethers";
 

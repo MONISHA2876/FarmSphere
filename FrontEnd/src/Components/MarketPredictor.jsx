@@ -208,7 +208,7 @@ const MarketPrediction = () => {
   // }
 
   return (
-    <div className="min-h-screen bg-smart-green bg-opacity-95 text-white">
+    <div className="min-h-screen bg-smart-green bg-opacity-95 text-white" id="market-predictor">
       {/* <div className="sticky top-0 z-50 bg-gray-900 shadow-md">
         <div className="max-w-6xl mx-auto px-4 py-3">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -795,10 +795,9 @@ const MarketPrediction = () => {
 
         <div className="mt-12 text-center">
           <p className="text-gray-400 text-sm">
-            KrishiPrice Forecast provides AI-powered price predictions to help
-            farmers make informed decisions.
+           
             <br />
-            Updated daily. Last update: March 9, 2025.
+          
           </p>
         </div>
       </div>
