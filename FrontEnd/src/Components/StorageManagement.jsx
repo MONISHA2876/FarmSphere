@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { registerStorage, updateAvailability, getFarmerSlots } from "./web3";
-import { animate, AnimatePresence, MotionConfig } from "framer-motion";
+import { motion, AnimatePresence, MotionConfig } from "framer-motion";
 import { ethers } from "ethers";
 
 const StorageForm = () => {
@@ -16,11 +16,21 @@ const StorageForm = () => {
   const [account, setAccount] = useState(null);
 
   const connectWallet = async () => {
-    if (!window.ethereum) return alert("Install MetaMask first");
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    const accounts = await provider.send("eth_requestAccounts", []);
-    setAccount(accounts[0]);
-    console.log("Connected wallet:", accounts[0]);
+    try {
+      if (!window.ethereum) return alert("Install MetaMask first");
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      // Request accounts and get signer address
+      await provider.send("eth_requestAccounts", []);
+      const signer = await provider.getSigner();
+      const address = await signer.getAddress();
+      setAccount(address);
+      console.log("Connected wallet:", address);
+      // Fetch slots for this connected account
+      fetchSlots();
+    } catch (err) {
+      console.error("Wallet connect error:", err);
+      alert("Could not connect wallet. Check console for details.");
+    }
   };
 
   const fetchSlots = async () => {
@@ -41,9 +51,12 @@ const StorageForm = () => {
     }
   };
 
+  // Fetch slots when an account is connected
   useEffect(() => {
-    fetchSlots();
-  }, []);
+    if (account) {
+      fetchSlots();
+    }
+  }, [account]);
 
   const showSuccessMessage = (message) => {
     setSuccessMessage(message);
@@ -95,11 +108,21 @@ const StorageForm = () => {
     <div className="min-h-screen bg-gray-100 py-8 px-4">
       <MotionConfig transition={{ duration: 0.3 }}>
         <div className="max-w-lg mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
-          <div>
+          <div className="p-4 border-b border-gray-200">
             {account ? (
-              <p>Connected: {account}</p>
+              <div className="flex items-center justify-between bg-green-50 p-3 rounded-lg">
+                <p className="text-sm text-green-800 font-medium">
+                  Connected: {account.slice(0, 6)}...{account.slice(-4)}
+                </p>
+                <div className="h-2 w-2 bg-green-500 rounded-full"></div>
+              </div>
             ) : (
-              <button onClick={connectWallet}>Connect Wallet</button>
+              <button
+                onClick={connectWallet}
+                className="w-full py-2 px-4 bg-smart-green text-white rounded-lg hover:bg-opacity-90 transition focus:outline-none focus:ring-2 focus:ring-smart-yellow"
+              >
+                Connect Wallet
+              </button>
             )}
           </div>
           <div className="bg-smart-green text-smart-yellow p-6">
@@ -145,29 +168,31 @@ const StorageForm = () => {
             </button>
           </div>
 
-          <AnimatePresence>
+          <AnimatePresence mode="wait">
             {successMessage && (
-              <div
+              <motion.div
+                key="success"
                 className="bg-green-50 text-green-800 px-4 py-3 border-l-4 border-green-500 m-4"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
               >
                 {successMessage}
-              </div>
+              </motion.div>
             )}
           </AnimatePresence>
 
-          <AnimatePresence>
+          <AnimatePresence mode="wait">
             {error && (
-              <div
+              <motion.div
+                key="error"
                 className="bg-red-50 text-red-800 px-4 py-3 border-l-4 border-red-500 m-4"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
               >
                 {error}
-              </div>
+              </motion.div>
             )}
           </AnimatePresence>
 
@@ -275,17 +300,28 @@ const StorageForm = () => {
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-smart-green"></div>
                   </div>
                 ) : slots.length > 0 ? (
-                  <div className="space-y-3">
+                  <motion.div
+                    className="space-y-3"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                  >
                     {slots.map((slot, index) => (
-                      <div
+                      <motion.div
                         key={index}
-                        className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition bg-gray-50"
+                        className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition bg-gray-50 cursor-pointer focus:outline-none focus:ring-2 focus:ring-smart-yellow"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{
                           opacity: 1,
                           y: 0,
                           transition: { delay: index * 0.1 },
                         }}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => {
+                          setSlotId(slot);
+                          setActiveTab("update");
+                        }}
+                        tabIndex={0}
                       >
                         <div className="flex items-center">
                           <div className="w-10 h-10 flex items-center justify-center bg-smart-green text-white rounded-full mr-3">
@@ -300,9 +336,9 @@ const StorageForm = () => {
                             </p>
                           </div>
                         </div>
-                      </div>
+                      </motion.div>
                     ))}
-                  </div>
+                  </motion.div>
                 ) : (
                   <div className="text-center py-8 bg-gray-50 rounded-lg border border-dashed border-gray-300">
                     <div className="text-4xl mb-3">📦</div>

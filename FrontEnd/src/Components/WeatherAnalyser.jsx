@@ -323,7 +323,7 @@ export default function WeatherForecast() {
   };
 
   return (
-    <div className="min-h-screen font-sans bg-gradient-to-b from-gray-50 to-gray-100">
+    <div className="min-h-screen font-sans bg-linear-to-b from-gray-50 to-gray-100">
       <div className="fixed inset-0 overflow-hidden -z-10">
         <div
           className={`absolute top-10 left-10 opacity-5 transition-all duration-3000 ease-in-out ${
@@ -357,7 +357,7 @@ export default function WeatherForecast() {
 
       <div className="max-w-4xl mx-auto py-8 px-4">
         <div className="bg-white rounded-lg p-4 text-smart-green flex justify-between items-center shadow-lg border-2 border-smart-green relative overflow-hidden mb-6">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-smart-yellow/20 to-transparent -translate-x-full animate-shimmer"></div>
+          <div className="absolute inset-0 bg-linear-to-r from-transparent via-smart-yellow/20 to-transparent -translate-x-full animate-shimmer"></div>
           <h1 className="text-3xl font-bold flex items-center">
             <span className="text-smart-yellow mr-2">Weather</span> Forecast
             {getWeatherIcon("mostly-sunny", 36, true)}
@@ -374,7 +374,7 @@ export default function WeatherForecast() {
         </div>
 
         <div className="bg-white shadow-lg p-6 mb-6 rounded-lg relative overflow-hidden transform transition-all duration-300 hover:scale-101 hover:shadow-xl">
-          <div className="absolute inset-0 bg-gradient-to-br from-smart-yellow/5 to-smart-green/5 opacity-50"></div>
+          <div className="absolute inset-0 bg-linear-to-br from-smart-yellow/5 to-smart-green/5 opacity-50"></div>
 
           <div
             className={`absolute top-2 right-2 opacity-10 transition-all duration-2000 ${
@@ -448,7 +448,7 @@ export default function WeatherForecast() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 p-4 rounded-lg border border-gray-100 shadow-md bg-gradient-to-br from-white to-gray-50">
+            <div className="grid grid-cols-2 gap-4 p-4 rounded-lg border border-gray-100 shadow-md bg-linear-to-br from-white to-gray-50">
               <div className="flex flex-col items-center p-3 rounded-lg transition-all duration-300 hover:bg-smart-yellow/10 hover:scale-105">
                 <Sunrise className="text-smart-yellow mb-2" size={28} />
                 <p className="text-xs text-gray-500">Morning</p>
@@ -483,7 +483,7 @@ export default function WeatherForecast() {
 
         <div className="bg-white shadow-lg rounded-lg overflow-hidden transform transition-all duration-300 hover:shadow-xl">
           <div className="bg-smart-green p-4 text-white relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-smart-yellow/10 to-transparent -translate-x-full animate-shimmer"></div>
+            <div className="absolute inset-0 bg-linear-to-r from-transparent via-smart-yellow/10 to-transparent -translate-x-full animate-shimmer"></div>
             <h2 className="font-bold text-smart-yellow flex items-center">
               <span className="mr-2">7-Day Forecast</span>
               <span
@@ -503,7 +503,7 @@ export default function WeatherForecast() {
                   key={index}
                   className={`min-w-[140px] border rounded-lg cursor-pointer transition-all duration-300 ${
                     selectedDay === index
-                      ? "border-smart-yellow shadow-md bg-gradient-to-b from-white to-gray-50 scale-105"
+                      ? "border-smart-yellow shadow-md bg-linear-to-b from-white to-gray-50 scale-105"
                       : hoveredIndex === index
                       ? "border-gray-300 shadow-sm bg-gray-50/50"
                       : "border-gray-200 hover:border-gray-300"
@@ -520,7 +520,7 @@ export default function WeatherForecast() {
                     }`}
                   >
                     <div
-                      className={`absolute inset-0 bg-gradient-to-r from-transparent via-smart-yellow/20 to-transparent -translate-x-full ${
+                      className={`absolute inset-0 bg-linear-to-r from-transparent via-smart-yellow/20 to-transparent -translate-x-full ${
                         selectedDay === index || hoveredIndex === index
                           ? "animate-shimmer"
                           : ""
@@ -578,7 +578,7 @@ export default function WeatherForecast() {
 
           {selectedDay !== null && (
             <div className="border-t border-gray-200 animate-fadeIn">
-              <div className="bg-gradient-to-br from-white to-gray-50 p-5 relative overflow-hidden">
+              <div className="bg-linear-to-br from-white to-gray-50 p-5 relative overflow-hidden">
                 <div
                   className={`absolute top-0 right-0 w-32 h-32 opacity-5 transition-all duration-2000 ${
                     animateCloud ? "translate-x-4" : "translate-x-0"
@@ -705,7 +705,7 @@ export default function WeatherForecast() {
                 </p>
                 <div className="mt-2 h-6 bg-gray-200 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-smart-green to-smart-yellow rounded-full"
+                    className="h-full bg-linear-to-r from-smart-green to-smart-yellow rounded-full"
                     style={{ width: "75%" }}
                   ></div>
                 </div>
@@ -758,7 +758,7 @@ export default function WeatherForecast() {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes shimmer {
           0% {
             transform: translateX(-100%);
